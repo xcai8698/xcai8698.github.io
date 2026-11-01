@@ -12,11 +12,13 @@ Maintain the user's personal knowledge and reflection site as a small, stable co
 - Repository: `xcai8698/xcai8698.github.io`
 - Default branch: `master`
 - Public site: `https://xcai8698.github.io/`
-- Stack: static HTML + one shared CSS file. No build step, framework, CMS, database, JavaScript dependency, or external UI library.
+- Stack: static HTML + shared CSS + one small local vanilla JavaScript file for theme behavior. No build step, framework, CMS, database, or external UI library.
 - Homepage: `index.html`
 - Shared styles: `assets/site.css`
+- Theme behavior: `assets/theme.js`
 - Article template: `notes/template.html`
 - Articles: `notes/*.html`
+- The homepage and every article share a light/dark theme toggle. First visit follows the operating-system preference; a manual choice is saved in `localStorage` and reused across pages.
 - The site is public. Never publish credentials, personal secrets, confidential employer/customer information, non-public code, personal data about third parties, or material the user has not authorized for public release.
 
 ## When to use
@@ -30,7 +32,7 @@ Do not use this workflow for a full website redesign, a new application, or chan
 1. **Preserve meaning.** Keep the user's core point of view, caveats, uncertainty, and first-person voice. Improve structure and expression without silently changing conclusions.
 2. **Do not invent facts.** Separate confirmed facts, interpretation, and open questions. Do not turn a plausible AI-generated explanation into a verified statement. For externally verifiable or time-sensitive facts, verify with trustworthy sources when browsing is available and cite links in the article when useful.
 3. **Write for later rereading.** Prefer a clear problem, context, reasoning, evidence/experience, conclusion, and unresolved questions over a transcript-like dump.
-4. **Keep HTML and CSS stable.** Use the existing article template and shared classes. Do not add inline styles, custom fonts, JavaScript, frameworks, CDN dependencies, or new CSS selectors for a single article unless explicitly requested.
+4. **Keep HTML and CSS stable.** Use the existing article template and shared classes. Preserve the local `../assets/theme.js` script and the theme toggle in `.article-header`. Do not add per-article inline styles/scripts, custom fonts, frameworks, CDN dependencies, or new CSS selectors for a single article unless explicitly requested.
 5. **Make the smallest safe change.** Do not alter `assets/site.css`, homepage design, existing articles, navigation, or deployment settings as part of an ordinary article update.
 6. **Protect the public site.** A commit to `master` publishes. A request to “draft” or “help me write” means prepare content for review, not publish it. A request to “update the site”, “add this article”, or “publish” authorizes repository edits after validation. If intent is unclear, prepare a draft and ask before committing.
 
@@ -68,7 +70,7 @@ Every article must:
 - Include a valid ISO date in `<time datetime="YYYY-MM-DD">` and a readable date label.
 - Include a concise lead paragraph, normally 1–3 sentences.
 - Use semantic HTML: `h2`, `h3`, `p`, lists, `blockquote`, `pre`/`code`, and `a` as appropriate.
-- Link back to `../index.html` and load `../assets/site.css` correctly.
+- Link back to `../index.html`, load `../assets/site.css` and `../assets/theme.js` correctly, and retain the accessible `[data-theme-toggle]` button in `.article-header`.
 - Avoid empty headings, placeholders, broken links, invalid nesting, unnecessary wrappers, and inline visual styling.
 
 New article naming: `notes/YYYY-MM-DD-short-topic.html`, with lowercase ASCII kebab-case topic. Do not rename an existing article solely for consistency; preserve inbound links.
@@ -108,7 +110,7 @@ Run `scripts/validate_site.py` against a local checkout or downloaded site tree 
 - Article stylesheet and home links resolve.
 - Required metadata and exactly one `h1` exist.
 - Local fragments resolve where checkable.
-- No inline styles or external script/style dependencies were introduced.
+- No inline styles, CDN dependencies, or unapproved scripts were introduced; the shared local `../assets/theme.js` is present.
 - No duplicate homepage entries exist.
 - Only intended files changed.
 
