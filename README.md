@@ -45,8 +45,8 @@
 
 在仓库 **Settings → Pages** 中，将 **Deploy from a branch** 设为发布方式，选择 `master` 分支和 `/ (root)` 目录并保存。
 
-当前仓库名为 `xuchuanmin.github.io`，所属账号为 `xcai8698`。按 GitHub Pages 的项目站点规则，默认访问地址通常是：
+当前仓库名为 `xcai8698.github.io`，所属账号为 `xcai8698`。这是账号对应的 GitHub Pages 个人主页仓库，默认访问地址是：
 
-`https://xcai8698.github.io/xuchuanmin.github.io/`
+`https://xcai8698.github.io/xcai8698.github.io/`
 
-如需使用 `https://xuchuanmin.github.io/` 作为根域名，需要将仓库调整为账号对应的 `xcai8698.github.io` 并配置域名/DNS；当前仓库名本身不会自动成为该账号的根站点域名。
+站点根地址：`https://xcai8698.github.io/`。
