@@ -1,6 +1,6 @@
 # 共建笔记 · Human × AI
 
-一个极简、以阅读为中心的个人记录站点。使用原生 HTML + CSS 构建，无需 Node.js、构建工具、数据库或第三方前端框架。
+一个极简、以阅读为中心的个人记录站点。使用原生 HTML + CSS + 少量原生 JavaScript 构建，无需 Node.js、构建工具、数据库或第三方前端框架。
 
 ## 站点结构
 
@@ -8,7 +8,8 @@
 .
 ├── index.html                 # 首页：主题介绍与文章索引
 ├── assets/
-│   └── site.css               # 全站统一样式
+│   ├── site.css               # 全站统一样式与明暗主题
+│   └── theme.js               # 主题切换、系统偏好与本地记忆
 └── notes/
     ├── about-this-space.html  # 关于本站
     └── template.html          # 新文章模板（复制后使用）
@@ -47,9 +48,17 @@
 
 当前仓库名为 `xcai8698.github.io`，所属账号为 `xcai8698`。这是账号对应的 GitHub Pages 个人主页仓库，默认访问地址是：
 
-`https://xcai8698.github.io/xcai8698.github.io/`
+`https://xcai8698.github.io/`
 
 站点根地址：`https://xcai8698.github.io/`。
+
+## 明暗模式
+
+- 首页与文章页均提供白天 / 黑夜模式切换。
+- 首次访问默认跟随操作系统的颜色偏好。
+- 用户手动切换后，会通过浏览器 `localStorage` 记住选择，并在各页面间保持一致。
+- 主题配色统一维护在 `assets/site.css`，行为逻辑维护在 `assets/theme.js`。
+- 新增文章时，复制 `notes/template.html` 即会带上主题切换按钮和脚本引用；不要删除它们。
 
 
 ## 文章维护 Skill
