@@ -1,0 +1,8 @@
+interface:
+  display_name: "Personal Site Article Maintainer"
+  short_description: "Write and publish consistent articles for the personal site"
+  brand_color: "#526D73"
+  default_prompt: "Use @personal-site-article-maintainer to help me create or update an article on my personal site."
+
+policy:
+  allow_implicit_invocation: true
