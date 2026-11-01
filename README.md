@@ -50,3 +50,14 @@
 `https://xcai8698.github.io/xcai8698.github.io/`
 
 站点根地址：`https://xcai8698.github.io/`。
+
+
+## 文章维护 Skill
+
+仓库内置了可复用的 ChatGPT / Codex Skill：
+
+- 入口：[`.agents/skills/personal-site-article-maintainer/SKILL.md`](.agents/skills/personal-site-article-maintainer/SKILL.md)
+- 规范：[`references/site-contract.md`](.agents/skills/personal-site-article-maintainer/references/site-contract.md)
+- 校验脚本：[`scripts/validate_site.py`](.agents/skills/personal-site-article-maintainer/scripts/validate_site.py)
+
+它负责把笔记整理成文章、沿用现有 HTML/CSS、维护首页文章索引，并在提交前检查元数据和本地链接。提交到 `master` 即会公开发布；仅要求起草时不会自动提交。
