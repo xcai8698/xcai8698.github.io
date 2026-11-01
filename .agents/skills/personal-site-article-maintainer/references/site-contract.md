@@ -4,21 +4,24 @@ The live repository is authoritative; fetch current files before editing.
 
 ## Visual language
 
-- Warm off-white background (`--paper: #f7f7f4`), charcoal text (`--ink: #252824`), calm gray secondary text (`--muted: #777b74`), subdued blue-green accent (`--accent: #526d73`).
+- Light theme: warm off-white background (`--paper: #f7f7f4`), charcoal text (`--ink: #252824`), calm gray secondary text (`--muted: #777b74`), subdued blue-green accent (`--accent: #526d73`).
+- Dark theme: deep charcoal-green background with soft off-white text and the same subdued blue-green accent; all surfaces, borders, and prose colors are CSS variables.
 - System sans for interface/body and a serif stack for editorial titles.
 - Narrow centered reading column (`.article-shell`, approximately 720px maximum width), generous whitespace, fine borders, restrained callouts.
 - Quiet editorial style: avoid bright gradients, decorative cards, heavy shadows, dense sidebars, or unnecessary UI.
+- A compact day/night toggle appears in the homepage navigation and every article header. First visit follows system preference; manual selection persists via `localStorage`.
 
 ## File map
 
 ```text
 index.html
 assets/site.css
+assets/theme.js
 notes/about-this-space.html
 notes/template.html
 ```
 
-New articles belong in `notes/`. Shared appearance belongs in `assets/site.css`, but article work should not normally change that stylesheet.
+New articles belong in `notes/`. Shared appearance belongs in `assets/site.css`; theme behavior belongs in `assets/theme.js`. Article work should not normally change either shared file.
 
 ## Article structure
 
@@ -28,6 +31,10 @@ Use the complete document scaffold from `notes/template.html`. Its article body 
 <div class="article-shell">
   <header class="article-header">
     <a class="back-link" href="../index.html">← 返回首页</a>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换到黑夜模式" aria-pressed="false" title="切换到黑夜模式">
+      <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+      <span class="theme-toggle-label">黑夜模式</span>
+    </button>
   </header>
   <main>
     <header class="article-heading">
@@ -51,7 +58,7 @@ Use the complete document scaffold from `notes/template.html`. Its article body 
 </div>
 ```
 
-The full page must retain the doctype, Chinese language, UTF-8, viewport, title, description metadata, and `../assets/site.css` link in the current template.
+The full page must retain the doctype, Chinese language, UTF-8, viewport, title, description metadata, `../assets/theme.js` script and `../assets/site.css` link in the current template. Load the theme script before the stylesheet to reduce a flash of the wrong theme.
 
 ## Homepage index contract
 
