@@ -8,7 +8,7 @@ The live repository is authoritative; fetch current files before editing.
 - Dark theme: deep charcoal-green background with soft off-white text and the same subdued blue-green accent; all surfaces, borders, and prose colors are CSS variables.
 - System sans for interface/body and a serif stack for editorial titles.
 - Narrow centered reading column (`.article-shell`, approximately 720px maximum width), generous whitespace, fine borders, restrained callouts.
-- Quiet editorial style: avoid bright gradients, decorative cards, heavy shadows, dense sidebars, or unnecessary UI.
+- Quiet editorial style: avoid bright gradients, decorative cards, heavy shadows, dense sidebars, or unnecessary UI. For selected long-form essays, an optional magazine treatment is available through reusable `.zine-*` classes: serif cover title, masthead rules, numbered sections, balanced two-column text/panel layouts, pull quotes and a restrained source footer. The reference implementation is `notes/2026-11-10-ai-collaboration-as-assets.html`.
 - A compact day/night toggle appears in the homepage navigation and every article header. First visit follows system preference; manual selection persists via `localStorage`.
 
 ## File map
@@ -21,7 +21,7 @@ notes/about-this-space.html
 notes/template.html
 ```
 
-New articles belong in `notes/`. Shared appearance belongs in `assets/site.css`; theme behavior belongs in `assets/theme.js`. Article work should not normally change either shared file.
+New articles belong in `notes/`. Shared appearance belongs in `assets/site.css`; theme behavior belongs in `assets/theme.js`. Article work should not normally change shared files, but may add reusable `.zine-*` rules when the user explicitly requests the editorial magazine treatment.
 
 ## Article structure
 
