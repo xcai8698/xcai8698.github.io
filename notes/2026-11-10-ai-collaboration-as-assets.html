@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <script src="../assets/theme.js"></script>
+  <meta name="description" content="一次关于 AI 共建的思考：如何把即时对话变成可复用的知识、方法与工程资产。">
+  <title>与 AI 共建：把对话变成长期资产 · 共建笔记</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="zine-article-shell">
+    <header class="article-header">
+      <a class="back-link" href="../index.html">← 返回首页</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换到黑夜模式" aria-pressed="false" title="切换到黑夜模式">
+        <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+        <span class="theme-toggle-label">黑夜模式</span>
+      </button>
+    </header>
+
+    <div class="zine-masthead">
+      <strong>共建笔记 / FIELD NOTES</strong>
+      <span>HUMAN × AI　·　ENGINEERING</span>
+    </div>
+
+    <main>
+      <header class="zine-hero">
+        <p class="zine-kicker">01　/　AI COLLABORATION</p>
+        <h1>与 AI 共建，<br>把对话变成长期资产</h1>
+        <p class="zine-deck">AI 让答案变得越来越容易获得。但真正值得积累的，不是一次回答，而是我们如何定义问题、建立判断、验证结果，并把有效的方法留给下一次。</p>
+        <div class="zine-meta">
+          <time datetime="2026-11-10">2026.11.10</time>
+          <span>个人思考</span>
+          <span>阅读约 5 分钟</span>
+          <span>首篇杂志式排版试验</span>
+        </div>
+      </header>
+
+      <article>
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">01</span>
+            <span class="zine-section-label">THE SHIFT / 变化在哪里</span>
+          </div>
+          <h2>从“获得答案”，转向“构建能力”</h2>
+          <div class="zine-columns">
+            <div class="zine-copy">
+              <p>过去使用工具，通常是人先理解问题，再寻找合适的软件完成操作。生成式 AI 改变了这个过程：我们可以用自然语言描述目标，让 AI 帮助拆解任务、整理资料、生成方案，甚至参与执行。</p>
+              <p>但如果每次都从一段新对话开始，价值很容易停留在当下。问题解决了，对话结束了；下一次遇到相似问题，还得重新解释背景、约束和判断标准。</p>
+              <p>所以我越来越在意的，不只是 AI 能不能给出答案，而是这次协作有没有留下可以复用的东西。</p>
+            </div>
+            <aside class="zine-panel">
+              <p class="zine-panel-label">一个值得追问的问题</p>
+              <ul>
+                <li><strong>一次性结果</strong>这次任务是否完成？</li>
+                <li><strong>可复用方法</strong>下次能否更快、更稳定地完成？</li>
+                <li><strong>持续积累</strong>经验能否被团队和其他 Agent 调用？</li>
+              </ul>
+            </aside>
+          </div>
+          <blockquote class="zine-quote">不要只把 AI 当作一个更快的回答者，也要把它当作共同构建工作系统的伙伴。</blockquote>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">02</span>
+            <span class="zine-section-label">THE METHOD / 怎样沉淀</span>
+          </div>
+          <h2>让每次协作留下四类资产</h2>
+          <div class="zine-columns">
+            <div class="zine-copy">
+              <p>在软件工程场景里，一次有效的人机协作往往不止产生代码。它还可能澄清需求、暴露假设、形成测试思路，或者发现原有流程中的信息断点。</p>
+              <p>如果只保存最终答案，最有价值的推理过程和验证依据就容易丢失。我倾向于把沉淀内容分成四类，它们可以独立维护，也可以互相链接。</p>
+            </div>
+            <aside class="zine-panel">
+              <p class="zine-panel-label">FOUR REUSABLE ASSETS</p>
+              <ul>
+                <li><strong>上下文 Context</strong>背景、目标、约束、术语与边界。</li>
+                <li><strong>方法 Method</strong>任务拆解、工作步骤、提示与工具调用方式。</li>
+                <li><strong>证据 Evidence</strong>测试结果、日志、来源、反例与验收标准。</li>
+                <li><strong>规则 Rules</strong>经过验证的约束、质量门槛和经验教训。</li>
+              </ul>
+            </aside>
+          </div>
+          <p class="zine-note">这是一种个人整理框架，不是已经验证的行业标准。具体项目可以按实际需要合并或拆分。</p>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">03</span>
+            <span class="zine-section-label">THE ENGINEERING / 工程化的意义</span>
+          </div>
+          <h2>从个人技巧，走向团队能力</h2>
+          <div class="zine-columns">
+            <div class="zine-copy">
+              <p>当一个人反复解决同类问题，沉淀出来的脚本、Skill、检查清单和领域知识，就有机会变成团队共享的能力。再往前一步，可以把这些能力放进统一的 Agent 工作入口，由平台负责权限、路由、运行状态和过程审计。</p>
+              <p>这并不意味着所有工作都应该交给 Agent。相反，越是自动化，越需要明确哪些步骤可以自主执行，哪些结论必须有证据，哪些节点需要人来确认。</p>
+              <p>真正的 AI Native，不是把聊天框放进每个工具，而是重新设计信息如何流动、工作如何衔接、质量如何被验证。</p>
+            </div>
+            <aside class="zine-panel">
+              <p class="zine-panel-label">从实践到系统</p>
+              <ul>
+                <li><strong>个人实践</strong>发现高频任务与有效做法。</li>
+                <li><strong>资产沉淀</strong>整理为 Skill、工具、知识和规则。</li>
+                <li><strong>团队复用</strong>共享上下文，统一质量与验收方式。</li>
+                <li><strong>平台治理</strong>管理权限、执行、路由与可追溯性。</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">04</span>
+            <span class="zine-section-label">THE PRINCIPLE / 不应外包的部分</span>
+          </div>
+          <h2>效率可以交给系统，判断不能轻易外包</h2>
+          <div class="zine-copy">
+            <p>AI 生成的内容可能完整、流畅，却不一定真实；自动化流程可能顺利执行，却不代表目标正确。尤其在工程场景，代码能运行不等于需求被满足，测试通过也不必然意味着风险已经覆盖。</p>
+            <p>因此，每项沉淀都应该尽可能保留来源、适用范围和验证状态。哪些是事实，哪些是推断，哪些只是待验证的想法，需要让后来使用它的人看得出来。</p>
+          </div>
+          <blockquote class="zine-quote">让 AI 参与思考与构建，但把目标、证据和最终判断握在自己手里。</blockquote>
+        </section>
+      </article>
+
+      <section class="zine-closing">
+        <p>把对话变成知识，<br>把尝试变成经验，<br>把经验变成下一次可以调用的能力。</p>
+        <div class="zine-source">作者：个人思考与实践整理。文中“四类资产”及“从实践到系统”框架为编辑归纳，不代表外部研究结论。<br>本文为基于 AI 协作主题的原创整理，未引用或复述 su-zine 项目示例内容。</div>
+      </section>
+    </main>
+
+    <footer class="zine-footer">
+      <a class="back-link" href="../index.html">← 回到记录索引</a>
+      <span>共建笔记　·　2026</span>
+      <a class="back-link" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">回到顶部 ↑</a>
+    </footer>
+  </div>
+</body>
+</html>
