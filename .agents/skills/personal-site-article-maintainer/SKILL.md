@@ -32,7 +32,7 @@ Do not use this workflow for a full website redesign, a new application, or chan
 1. **Preserve meaning.** Keep the user's core point of view, caveats, uncertainty, and first-person voice. Improve structure and expression without silently changing conclusions.
 2. **Do not invent facts.** Separate confirmed facts, interpretation, and open questions. Do not turn a plausible AI-generated explanation into a verified statement. For externally verifiable or time-sensitive facts, verify with trustworthy sources when browsing is available and cite links in the article when useful.
 3. **Write for later rereading.** Prefer a clear problem, context, reasoning, evidence/experience, conclusion, and unresolved questions over a transcript-like dump.
-4. **Keep HTML and CSS stable.** Use the existing article template and shared classes. Preserve the local `../assets/theme.js` script and the theme toggle in `.article-header`. Do not add per-article inline styles/scripts, custom fonts, frameworks, CDN dependencies, or new CSS selectors for a single article unless explicitly requested.
+4. **Keep HTML and CSS stable.** Use the existing article template and shared classes. The default remains the narrow prose layout; when an editorial/magazine presentation is requested, use the reusable `.zine-*` classes in `assets/site.css` (as demonstrated by `notes/2026-11-10-ai-collaboration-as-assets.html`). Add reusable shared CSS only when needed, never one-off inline styling. Preserve the local `../assets/theme.js` script and theme toggle. Do not add custom fonts, frameworks, or CDN dependencies.
 5. **Make the smallest safe change.** Do not alter `assets/site.css`, homepage design, existing articles, navigation, or deployment settings as part of an ordinary article update.
 6. **Protect the public site.** A commit to `master` publishes. A request to “draft” or “help me write” means prepare content for review, not publish it. A request to “update the site”, “add this article”, or “publish” authorizes repository edits after validation. If intent is unclear, prepare a draft and ask before committing.
 
@@ -48,7 +48,7 @@ Do not use this workflow for a full website redesign, a new application, or chan
 
 ### 2. Shape the article
 
-Use a structure appropriate to the topic; do not force identical headings into every article.
+Use a structure appropriate to the topic; do not force identical headings into every article. The site supports two reading treatments: a restrained prose article (default) and an editorial zine layout with serif display headings, masthead, numbered sections, fine rules, two-column copy/panel modules, pull quotes, muted panels, and source notes. Choose the zine treatment when the user asks for a magazine/editorial layout; keep it responsive and compatible with both light and dark themes.
 
 - Title: specific and understandable without chat context.
 - Lead: one short paragraph explaining the question, significance, or takeaway.
