@@ -232,3 +232,18 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   .zine-panel { padding:20px; }
   .zine-footer { flex-wrap:wrap; }
 }
+
+
+/* Responsive, theme-aware diagrams for technical zine articles. */
+.zine-figure { margin:30px 0 34px; padding:22px 20px 14px; background:var(--surface-soft); border-top:2px solid var(--accent); }
+.zine-diagram { display:block; width:100%; height:auto; overflow:visible; }
+.zine-diagram text { paint-order:stroke; }
+.zine-diagram-compact { max-height:330px; }
+.zine-figure figcaption { margin-top:13px; color:var(--muted); font-size:11px; line-height:1.8; }
+.zine-figure + .zine-copy { margin-top:22px; }
+@media (max-width:720px) {
+  .zine-figure { margin:23px -2px 27px; padding:15px 8px 11px; overflow:hidden; }
+  .zine-diagram { min-width:620px; max-width:none; }
+  .zine-figure { overflow-x:auto; }
+  .zine-figure figcaption { position:sticky; left:0; }
+}
