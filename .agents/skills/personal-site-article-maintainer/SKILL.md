@@ -58,6 +58,17 @@ Use a structure appropriate to the topic; do not force identical headings into e
 
 Keep first-person reflection when valuable. Remove conversational filler, repeated prompts, and unsupported claims. For technical articles, preserve context, constraints, versions, key steps, failure modes, and verification status. For reflections, preserve nuance and avoid turning opinions into universal advice.
 
+### Visual communication
+
+Choose the visual form according to the information being explained; do not add imagery decoratively.
+
+- Use hand-authored inline SVG for technical architecture, event flows, state machines, sequence relationships, comparisons, and layered responsibility boundaries. It keeps labels precise, scales cleanly, supports light/dark themes, and remains editable in the static HTML site.
+- Use CSS/HTML diagrams for simple cards, timelines, matrices, and editorial emphasis when SVG adds no value.
+- Use React Flow only when the article genuinely needs interactive exploration, draggable nodes, zoomable large graphs, or user-editable topology. Do not add its runtime to ordinary static articles.
+- Use generated raster images for conceptual illustrations, atmosphere, or visual metaphors—not for diagrams where exact labels, connections, or technical correctness matter.
+- Prefer a small number of meaningful figures placed next to the explanation they clarify. Every figure needs a caption and, where useful, accessible SVG title/description. Check mobile readability and light/dark contrast.
+- Diagrams must distinguish source-backed project behavior from the author's conceptual interpretation. Label reconstructed diagrams as explanatory redraws, not original project diagrams.
+
 ### 3. Follow the HTML contract
 
 Read `references/site-contract.md` and use `assets/article-template.html` as the structural reference. Before repository changes, fetch the current `notes/template.html` and `assets/site.css`; repository files are authoritative.
