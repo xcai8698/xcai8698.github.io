@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <script src="../assets/theme.js"></script>
+  <meta name="description" content="从 Agent Autoloop 看事件驱动的 Agent 自动化：任务如何被触发、执行、挂起、审批与恢复，以及它对多 Agent 工程平台的启发。">
+  <title>让 Agent 自己接活，只在需要时找人 · 共建笔记</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="zine-article-shell">
+    <header class="article-header">
+      <a class="back-link" href="../index.html">← 返回首页</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换到黑夜模式" aria-pressed="false" title="切换到黑夜模式">
+        <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+        <span class="theme-toggle-label">黑夜模式</span>
+      </button>
+    </header>
+
+    <div class="zine-masthead">
+      <strong>共建笔记 / FIELD NOTES</strong>
+      <span>HUMAN × AI　·　AGENT SYSTEMS</span>
+    </div>
+
+    <main>
+      <header class="zine-hero">
+        <p class="zine-kicker">02　/　AGENT AUTOMATION</p>
+        <h1>让 Agent 自己接活，<br>只在需要时找人</h1>
+        <p class="zine-deck">当我们同时运行多个 Agent，瓶颈很快就不再是模型能不能干活，而是人能不能及时发现、判断和接续每一件事。Agent Autoloop 给出了一种值得研究的答案：事件驱动执行，低成本等待，把人的注意力留给真正需要决策的节点。</p>
+        <div class="zine-meta">
+          <time datetime="2026-11-14">2026.11.14</time>
+          <span>Agent 系统 / 学习笔记</span>
+          <span>阅读约 8 分钟</span>
+          <span>基于公开项目与文档的二次整理</span>
+        </div>
+      </header>
+
+      <article>
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">01</span>
+            <span class="zine-section-label">THE BOTTLENECK / 真正的瓶颈</span>
+          </div>
+          <h2>Agent 越多，人不应该越忙</h2>
+          <div class="zine-columns">
+            <div class="zine-copy">
+              <p>我们熟悉的命令行 Agent 使用方式，仍然以人为中心：打开终端、输入任务、盯着执行、回答追问、检查结果，再决定下一步。它提升了单次任务的生产力，却也把人变成了多个会话之间的调度员。</p>
+              <p>当任务变多，真正稀缺的资源开始从计算能力转向人的注意力。人需要知道哪个任务启动了、哪个卡住了、哪个完成了、哪个需要拍板。若每个 Agent 都持续占据一个终端和一段人的注意力，规模化就会遇到天花板。</p>
+              <p>卡兹克在其 Agent 自动化系统的介绍中，用“批奏折”来描述这个问题：Agent 像大臣一样处理事务，人不必逐件盯办，只需处理需要裁决的事项。这个比喻背后的工程命题是：把人从执行循环中移出来，放到决策边界上。</p>
+            </div>
+            <aside class="zine-panel">
+              <p class="zine-panel-label">问题重新定义</p>
+              <ul>
+                <li><strong>旧问题</strong>怎样让 Agent 更快完成一轮任务？</li>
+                <li><strong>新问题</strong>怎样让任务在无人盯守时持续向前？</li>
+                <li><strong>核心指标</strong>人需要介入多少次、每次介入是否必要？</li>
+              </ul>
+            </aside>
+          </div>
+          <blockquote class="zine-quote">好的 Agent 自动化，不是让人更高效地盯住更多 Agent，而是让人不必盯着它们。</blockquote>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">02</span>
+            <span class="zine-section-label">SYSTEM MODEL / 系统如何运转</span>
+          </div>
+          <h2>把工作组织成一个事件驱动的闭环</h2>
+          <p>Agent Autoloop 并不是一个新的通用 Agent，也不是一个要求所有 Agent 迁入的模型运行时。它更像一个轻量的本地自动化中台：接收事件、匹配规则、调用已有 CLI Agent、接收结构化回执，并在需要人类决策时保存状态、发出审批请求。</p>
+          <div class="zine-flow">
+            <div class="zine-flow-step"><span>01 / EVENT</span><strong>事件进入</strong><small>定时任务、GitHub Issue、Webhook、错误告警</small></div>
+            <div class="zine-flow-arrow">→</div>
+            <div class="zine-flow-step"><span>02 / ROUTE</span><strong>规则路由</strong><small>按规则选择 Agent、工作目录与任务说明</small></div>
+            <div class="zine-flow-arrow">→</div>
+            <div class="zine-flow-step"><span>03 / EXECUTE</span><strong>执行一轮</strong><small>Agent 处理任务，提交最终结果或回执</small></div>
+            <div class="zine-flow-arrow">→</div>
+            <div class="zine-flow-step"><span>04 / DECIDE</span><strong>必要时请示</strong><small>通过卡片通知人，等待明确选择</small></div>
+            <div class="zine-flow-arrow">→</div>
+            <div class="zine-flow-step"><span>05 / RESUME</span><strong>恢复执行</strong><small>接续原会话，完成后续工作并记录结果</small></div>
+          </div>
+          <div class="zine-copy">
+            <p>这里有一个重要的设计选择：Agent 完成一轮后就退出。等待人工答复时，不让模型进程一直挂着，也不靠持续轮询消耗 Token。待处理状态由中台保存；人回复后，再恢复原来的会话继续执行。</p>
+            <p>因此，“等待”从一个持续占用模型资源的运行过程，变成了一个持久化的业务状态。这是整个设计最值得借鉴的地方之一。</p>
+          </div>
+          <p class="zine-note">示意图根据项目 README 的工作流程重新绘制，用于解释概念；不是项目原始架构图。</p>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">03</span>
+            <span class="zine-section-label">DESIGN CHOICES / 值得学习的设计</span>
+          </div>
+          <h2>真正有含金量的是四个机制</h2>
+          <div class="zine-columns">
+            <div class="zine-copy">
+              <h3>01　挂起零消耗：等待不等于运行</h3>
+              <p>当 Agent 需要人回答时，结束当前进程，把待办问题和会话关联关系保存下来。人的响应可能几分钟，也可能几天；系统不应该为了等待而持续占用模型资源。恢复时优先接续原会话，避免把上下文重新拼装成一个全新的任务。</p>
+              <h3>02　事件溯源：状态变化必须可解释</h3>
+              <p>项目以只追加的事实日志记录事件和状态变化，再由日志投影出当前状态。这样不仅能查看当前任务，更能回答“为什么会运行到这里”“哪一步产生了这个结果”。当状态模型变化时，也可以从事实记录重建，而不是依赖一堆难以追踪的可变状态。</p>
+              <h3>03　指令与数据分离：外部输入不能变成控制权</h3>
+              <p>Issue 标题、正文等外部内容作为资料传递，而不是直接拼进系统指令；Agent、工作目录和权限由本地规则决定，不接受事件载荷擅自指定。这是防止提示注入和权限越界的一条重要边界。</p>
+              <h3>04　跳数熔断：自动化必须有停止条件</h3>
+              <p>Agent 可能触发新事件，新事件又触发 Agent，形成循环。项目用跨轮次累计的跳数限制给自动化链路设置上限，超过阈值就停止继续派发并通知人。任何无人值守的自动化系统，都需要类似的预算、深度或时间边界。</p>
+            </div>
+            <aside class="zine-panel">
+              <p class="zine-panel-label">工程模式映射</p>
+              <ul>
+                <li><strong>挂起零消耗</strong>状态机 / 持久化等待 / 会话恢复</li>
+                <li><strong>事件溯源</strong>Append-only Log / 可重建状态</li>
+                <li><strong>指令数据分离</strong>信任边界 / 最小权限 / Prompt Injection 防护</li>
+                <li><strong>跳数熔断</strong>循环检测 / 执行预算 / 安全降级</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">04</span>
+            <span class="zine-section-label">HUMAN IN THE LOOP / 人机分工</span>
+          </div>
+          <h2>不是所有事情都要审批，而是把审批放在正确的位置</h2>
+          <p>如果每一步都要人点确认，自动化只会变成另一种形式的人工操作；如果所有事情都自动放行，系统又可能在错误目标或高风险操作上一路执行到底。关键不是“是否有人在环”，而是如何定义需要人介入的边界。</p>
+          <div class="zine-columns">
+            <div class="zine-copy">
+              <p>一个可操作的分层方式，是把任务按影响范围和可逆性分类：</p>
+              <ul>
+                <li><strong>低风险、可逆：</strong>整理资料、生成草稿、分析日志、运行只读检查，可以自动执行并记录。</li>
+                <li><strong>中风险、可验证：</strong>修改代码、创建分支、提交 PR，可以自动执行，但需要测试、差异审查或规则门禁。</li>
+                <li><strong>高风险、难逆转：</strong>删除数据、生产变更、资金支出、对外发送信息，应要求明确授权，并保留审批人和审批内容。</li>
+              </ul>
+              <p>这套分层是我基于项目机制做的工程化归纳，并非项目内置的完整风险分类。实际落地时，还要结合组织权限、业务影响和审计要求细化。</p>
+            </div>
+            <aside class="zine-panel">
+              <p class="zine-panel-label">人的角色变化</p>
+              <ul>
+                <li>从逐条派活，转向定义规则。</li>
+                <li>从盯住执行，转向观察异常。</li>
+                <li>从回答所有问题，转向处理关键决策。</li>
+                <li>从事后找原因，转向依靠事件记录追溯。</li>
+              </ul>
+            </aside>
+          </div>
+          <blockquote class="zine-quote">Human-in-the-loop 的价值，不是让人参与更多步骤，而是确保人在真正重要的步骤上拥有控制权。</blockquote>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">05</span>
+            <span class="zine-section-label">PLATFORM THINKING / 对多 Agent 平台的启发</span>
+          </div>
+          <h2>它解决的是自动执行，不等于完整的 Agent 协作平台</h2>
+          <div class="zine-copy">
+            <p>把它放到更大的 Agent 系统版图里看，定位会更清楚。Agent Autoloop 擅长的是“事件来了，按规则把任务交给某个 CLI Agent，并把执行闭环跑完”。它把已有 Agent 当作可替换的执行器，重点处理触发、调度、等待、审批和恢复。</p>
+            <p>但复杂的软件工程协作还包含另一组问题：多个仓库和项目如何组织，任务如何分解并派发给不同角色，Agent 之间如何共享上下文，产物如何交接，PR、Issue 和 CI 状态如何关联，团队如何管理权限、可观测性和成本。这些并不是一个轻量任务调度器天然就能全部覆盖的。</p>
+            <p>因此，它与 Multica 这类任务协作平台并非简单替代关系。前者可以作为事件驱动执行层的设计参考，后者还需要承担项目级任务管理、协作上下文和多运行时治理。两者的边界应该由实际工作流决定，而不是强行合并成一个“大而全”的 Agent。</p>
+          </div>
+          <aside class="zine-panel zine-panel-wide">
+            <p class="zine-panel-label">可以借鉴到企业级 Agent 平台的能力</p>
+            <div class="zine-capability-grid">
+              <div><strong>事件入口</strong><span>定时、Webhook、Issue、告警统一成事件模型</span></div>
+              <div><strong>执行适配</strong><span>把 Claude Code、Codex、DSH 等视为可替换 Runtime</span></div>
+              <div><strong>持久化状态</strong><span>任务等待、运行、失败、恢复都有明确状态</span></div>
+              <div><strong>人工审批</strong><span>将高风险决策变成有记录、可追溯的授权动作</span></div>
+              <div><strong>运行治理</strong><span>设置并发、超时、重试、预算与循环熔断</span></div>
+              <div><strong>可观测性</strong><span>能够解释每次触发、派发、执行与交付的因果链</span></div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">06</span>
+            <span class="zine-section-label">LIMITS & QUESTIONS / 还需要验证什么</span>
+          </div>
+          <h2>开源设计值得学习，生产可用性仍要自己验证</h2>
+          <div class="zine-copy">
+            <p>从公开 README 可以看到项目描述了确定性内核、事件日志、输入边界、模拟测试和强杀测试，也列出了部分 Agent 与通知通道的实测情况。但项目文档同时明确区分了真实集成与本地模拟：例如部分 Webhook 模板只在模拟服务中验证，不能把“有插件”直接理解为“已在真实企业环境完成端到端验证”。</p>
+            <p>对于企业落地，还需要进一步检查认证与密钥管理、租户隔离、权限模型、任务幂等、重试策略、日志保留、升级兼容、故障恢复，以及对外部 Agent CLI 行为变化的适配成本。尤其是涉及生产系统时，审批卡片不能替代服务端授权和真正的权限隔离。</p>
+            <p>另外，项目强调本机运行和不需要开放公网端口，这对个人开发环境很友好；但团队共享、集中审计、多用户并发和跨网络部署，是另一组架构问题，不能直接从个人工具的形态推导出企业部署结论。</p>
+          </div>
+          <p class="zine-note">本文不对项目的生产成熟度、实际使用规模或安全性作独立认证。相关判断以公开 README 与文档披露为边界，正式采用前应审阅代码、测试和部署配置。</p>
+        </section>
+
+        <section class="zine-section">
+          <div class="zine-section-head">
+            <span class="zine-section-no">07</span>
+            <span class="zine-section-label">MY TAKEAWAYS / 我的总结</span>
+          </div>
+          <h2>下一阶段，Agent 系统要从“会执行”走向“可托管”</h2>
+          <div class="zine-copy">
+            <p>这个项目给我的最大启发，不是又多了一种 Agent 编排工具，而是它把一个常被忽略的问题做成了明确的系统能力：Agent 不应该依赖人持续在线，任务也不应该因为一次会话结束就失去连续性。</p>
+            <p>我认为值得带走的有五点：</p>
+            <ol>
+              <li><strong>事件优先于会话。</strong>任务应该由业务事件和规则驱动，而不是永远等待人打开终端发起。</li>
+              <li><strong>状态优先于进程。</strong>进程可以退出，任务状态、审批请求和恢复位置必须可靠保存。</li>
+              <li><strong>授权优先于提示词。</strong>高风险动作的控制权必须来自系统权限，而不能只靠 Agent 自觉遵守提示。</li>
+              <li><strong>可追溯优先于“看起来跑通”。</strong>每次自动执行都应能回答触发原因、执行主体、输入依据、产出和后续动作。</li>
+              <li><strong>人只处理例外与决策。</strong>自动化的终点不是减少几次点击，而是减少不必要的人为注意力切换。</li>
+            </ol>
+            <p>如果把它抽象成一句话：Agent 系统的下一阶段，不只是让更多 Agent 能够工作，而是让任务在明确的权限、状态和证据约束下，能够持续、可控地工作。</p>
+          </div>
+          <blockquote class="zine-quote">把人从“执行调度员”变成“规则制定者与关键决策者”。这才是 Agent 自动化真正值得追求的方向。</blockquote>
+        </section>
+      </article>
+
+      <section class="zine-closing">
+        <p>少一些盯守，<br>多一些规则；<br>少一些会话孤岛，<br>多一些可恢复的工作流。</p>
+        <div class="zine-source">
+          <strong>资料来源与延伸阅读</strong><br>
+          1. <a href="https://x.com/khazix0918/status/2117776745688646139?s=46" target="_blank" rel="noopener noreferrer">数字生命卡兹克：Agent 自动化系统开源帖（X）</a><br>
+          2. <a href="https://github.com/KKKKhazix/agent-autoloop" target="_blank" rel="noopener noreferrer">KKKKhazix / agent-autoloop：项目仓库与 README</a><br>
+          3. <a href="https://github.com/KKKKhazix/agent-autoloop/blob/main/docs/plugins.md" target="_blank" rel="noopener noreferrer">Agent Autoloop：插件开发文档</a><br><br>
+          本文为个人学习笔记与二次整理。系统机制部分依据项目公开 README 和文档归纳；“人机分工分层”“与多 Agent 协作平台的边界”及工程启发部分为作者的分析，不代表原项目作者观点。未复制原文段落。
+        </div>
+      </section>
+    </main>
+
+    <footer class="zine-footer">
+      <a class="back-link" href="../index.html">← 回到记录索引</a>
+      <span>共建笔记　·　2026</span>
+      <a class="back-link" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">回到顶部 ↑</a>
+    </footer>
+  </div>
+</body>
+</html>
