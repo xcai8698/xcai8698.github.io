@@ -69,17 +69,47 @@
           </div>
           <h2>把工作组织成一个事件驱动的闭环</h2>
           <p>Agent Autoloop 并不是一个新的通用 Agent，也不是一个要求所有 Agent 迁入的模型运行时。它更像一个轻量的本地自动化中台：接收事件、匹配规则、调用已有 CLI Agent、接收结构化回执，并在需要人类决策时保存状态、发出审批请求。</p>
-          <div class="zine-flow">
-            <div class="zine-flow-step"><span>01 / EVENT</span><strong>事件进入</strong><small>定时任务、GitHub Issue、Webhook、错误告警</small></div>
-            <div class="zine-flow-arrow">→</div>
-            <div class="zine-flow-step"><span>02 / ROUTE</span><strong>规则路由</strong><small>按规则选择 Agent、工作目录与任务说明</small></div>
-            <div class="zine-flow-arrow">→</div>
-            <div class="zine-flow-step"><span>03 / EXECUTE</span><strong>执行一轮</strong><small>Agent 处理任务，提交最终结果或回执</small></div>
-            <div class="zine-flow-arrow">→</div>
-            <div class="zine-flow-step"><span>04 / DECIDE</span><strong>必要时请示</strong><small>通过卡片通知人，等待明确选择</small></div>
-            <div class="zine-flow-arrow">→</div>
-            <div class="zine-flow-step"><span>05 / RESUME</span><strong>恢复执行</strong><small>接续原会话，完成后续工作并记录结果</small></div>
-          </div>
+          <figure class="zine-figure">
+            <svg class="zine-diagram" viewBox="0 0 960 430" role="img" aria-labelledby="auto-title auto-desc">
+              <title id="auto-title">Agent Autoloop 事件驱动执行闭环</title>
+              <desc id="auto-desc">事件源进入自动化控制层，由规则路由至 CLI Agent；执行结果写入事件日志和状态存储，需人工决策时通知人类，审批后恢复原会话。</desc>
+              <defs>
+                <marker id="auto-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--accent)" stroke-width="1.4"/></marker>
+              </defs>
+              <g fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#auto-arrow)">
+                <path d="M180 105 H270"/><path d="M440 105 H530"/><path d="M700 105 H780"/>
+                <path d="M615 155 V250"/><path d="M530 290 H440"/><path d="M270 290 H180"/>
+                <path d="M355 155 V250" stroke-dasharray="5 6"/>
+              </g>
+              <g fill="var(--surface-soft)" stroke="var(--soft-rule)" stroke-width="1.5">
+                <rect x="20" y="62" width="160" height="86" rx="8"/><rect x="270" y="62" width="170" height="86" rx="8"/>
+                <rect x="530" y="62" width="170" height="86" rx="8"/><rect x="780" y="62" width="160" height="86" rx="8"/>
+                <rect x="530" y="250" width="170" height="86" rx="8"/><rect x="270" y="250" width="170" height="86" rx="8"/>
+                <rect x="20" y="250" width="160" height="86" rx="8"/>
+              </g>
+              <g fill="var(--accent)" font-family="var(--sans)" font-size="12" letter-spacing="1">
+                <text x="100" y="88" text-anchor="middle">01 / INPUT</text><text x="355" y="88" text-anchor="middle">02 / CONTROL</text>
+                <text x="615" y="88" text-anchor="middle">03 / EXECUTE</text><text x="860" y="88" text-anchor="middle">04 / RESULT</text>
+                <text x="615" y="276" text-anchor="middle">05 / HUMAN GATE</text><text x="355" y="276" text-anchor="middle">06 / PERSIST</text>
+                <text x="100" y="276" text-anchor="middle">07 / RESUME</text>
+              </g>
+              <g fill="var(--ink)" font-family="var(--sans)" font-size="17" font-weight="600">
+                <text x="100" y="116" text-anchor="middle">事件源</text><text x="355" y="116" text-anchor="middle">规则路由</text>
+                <text x="615" y="116" text-anchor="middle">CLI Agent</text><text x="860" y="116" text-anchor="middle">执行回执</text>
+                <text x="615" y="304" text-anchor="middle">人工审批</text><text x="355" y="304" text-anchor="middle">事件日志 / 状态</text>
+                <text x="100" y="304" text-anchor="middle">恢复原会话</text>
+              </g>
+              <g fill="var(--muted)" font-family="var(--sans)" font-size="11">
+                <text x="100" y="133" text-anchor="middle">定时 · Issue · Webhook</text><text x="355" y="133" text-anchor="middle">匹配 Agent 与工作目录</text>
+                <text x="615" y="133" text-anchor="middle">运行一轮后退出</text><text x="860" y="133" text-anchor="middle">成功 / 失败 / 请示</text>
+                <text x="615" y="321" text-anchor="middle">只在需要决策时打扰人</text><text x="355" y="321" text-anchor="middle">保存待办与会话关联</text>
+                <text x="100" y="321" text-anchor="middle">带着新答复继续执行</text>
+              </g>
+              <text x="480" y="205" text-anchor="middle" fill="var(--muted)" font-family="var(--sans)" font-size="12">等待期间：Agent 进程退出，状态留存，不持续消耗模型资源</text>
+              <path d="M860 148 V205 H615 V250" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#auto-arrow)"/>
+            </svg>
+            <figcaption>图 1 · 事件驱动的执行闭环。此图为基于公开文档的概念重绘，不是项目原始架构图。</figcaption>
+          </figure>
           <div class="zine-copy">
             <p>这里有一个重要的设计选择：Agent 完成一轮后就退出。等待人工答复时，不让模型进程一直挂着，也不靠持续轮询消耗 Token。待处理状态由中台保存；人回复后，再恢复原来的会话继续执行。</p>
             <p>因此，“等待”从一个持续占用模型资源的运行过程，变成了一个持久化的业务状态。这是整个设计最值得借鉴的地方之一。</p>
@@ -93,6 +123,32 @@
             <span class="zine-section-label">DESIGN CHOICES / 值得学习的设计</span>
           </div>
           <h2>真正有含金量的是四个机制</h2>
+          <figure class="zine-figure">
+            <svg class="zine-diagram zine-diagram-compact" viewBox="0 0 960 300" role="img" aria-labelledby="state-title state-desc">
+              <title id="state-title">Agent 任务状态与挂起恢复</title>
+              <desc id="state-desc">任务从待执行到运行中，运行结束后可能完成，也可能等待人工决策。等待状态保存任务和会话，不保留运行进程；人工答复后重新进入运行。</desc>
+              <defs><marker id="state-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="var(--accent)" stroke-width="1.5"/></marker></defs>
+              <g fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#state-arrow)">
+                <path d="M170 130 H285"/><path d="M455 130 H570"/><path d="M740 130 H830"/>
+                <path d="M655 170 V230 H370 V170"/><path d="M655 90 V45 H910 V90"/>
+              </g>
+              <g fill="var(--surface-soft)" stroke="var(--soft-rule)" stroke-width="1.5">
+                <rect x="20" y="90" width="150" height="80" rx="8"/><rect x="285" y="90" width="170" height="80" rx="8"/>
+                <rect x="570" y="90" width="170" height="80" rx="8"/><rect x="830" y="90" width="110" height="80" rx="8"/>
+                <rect x="480" y="215" width="350" height="65" rx="8"/>
+              </g>
+              <g fill="var(--accent)" font-family="var(--sans)" font-size="12" text-anchor="middle">
+                <text x="95" y="116">QUEUED</text><text x="370" y="116">RUNNING</text><text x="655" y="116">WAITING</text><text x="885" y="116">DONE</text><text x="655" y="239">HUMAN RESPONSE</text>
+              </g>
+              <g fill="var(--ink)" font-family="var(--sans)" font-size="16" font-weight="600" text-anchor="middle">
+                <text x="95" y="145">待执行</text><text x="370" y="145">运行中</text><text x="655" y="145">挂起等待</text><text x="885" y="145">完成</text><text x="655" y="265">审批 / 补充信息 / 选择</text>
+              </g>
+              <text x="655" y="195" fill="var(--muted)" font-family="var(--sans)" font-size="11" text-anchor="middle">进程退出 · 状态持久化 · 会话 ID 保留</text>
+              <text x="805" y="35" fill="var(--muted)" font-family="var(--sans)" font-size="11" text-anchor="middle">无需人工介入</text>
+              <text x="370" y="205" fill="var(--accent)" font-family="var(--sans)" font-size="11" text-anchor="middle">恢复原会话</text>
+            </svg>
+            <figcaption>图 2 · “等待”是一种持久化状态，而不是一个持续运行的模型进程。</figcaption>
+          </figure>
           <div class="zine-columns">
             <div class="zine-copy">
               <h3>01　挂起零消耗：等待不等于运行</h3>
@@ -157,6 +213,35 @@
             <p>但复杂的软件工程协作还包含另一组问题：多个仓库和项目如何组织，任务如何分解并派发给不同角色，Agent 之间如何共享上下文，产物如何交接，PR、Issue 和 CI 状态如何关联，团队如何管理权限、可观测性和成本。这些并不是一个轻量任务调度器天然就能全部覆盖的。</p>
             <p>因此，它与 Multica 这类任务协作平台并非简单替代关系。前者可以作为事件驱动执行层的设计参考，后者还需要承担项目级任务管理、协作上下文和多运行时治理。两者的边界应该由实际工作流决定，而不是强行合并成一个“大而全”的 Agent。</p>
           </div>
+          <figure class="zine-figure">
+            <svg class="zine-diagram zine-diagram-compact" viewBox="0 0 960 330" role="img" aria-labelledby="layer-title layer-desc">
+              <title id="layer-title">Agent 系统的分层协作关系</title>
+              <desc id="layer-desc">项目协作层负责目标、任务分解、上下文和交付；事件自动化层负责触发、路由、状态、审批与恢复；Agent Runtime 负责具体执行；底层是模型和工具。</desc>
+              <g stroke="var(--soft-rule)" stroke-width="1.5">
+                <rect x="110" y="22" width="740" height="64" rx="8" fill="var(--surface-soft)"/>
+                <rect x="110" y="112" width="740" height="64" rx="8" fill="var(--accent-soft)"/>
+                <rect x="110" y="202" width="740" height="48" rx="8" fill="var(--surface-soft)"/>
+                <rect x="110" y="276" width="740" height="38" rx="8" fill="var(--surface-soft)"/>
+              </g>
+              <g fill="var(--accent)" font-family="var(--sans)" font-size="12" letter-spacing="1">
+                <text x="135" y="46">COLLABORATION / PROJECT LAYER</text><text x="135" y="136">EVENT AUTOMATION LAYER</text>
+                <text x="135" y="222">AGENT RUNTIME</text><text x="135" y="300">MODEL &amp; TOOLS</text>
+              </g>
+              <g fill="var(--ink)" font-family="var(--sans)" font-size="16" font-weight="600">
+                <text x="135" y="70">项目目标 · 任务分解 · 上下文共享 · 交付协同</text>
+                <text x="135" y="160">事件触发 · 规则路由 · 状态持久化 · 人工审批 · 会话恢复</text>
+                <text x="470" y="234" text-anchor="middle">Claude Code　/　Codex　/　DSH　/　其他执行器</text>
+                <text x="480" y="301" text-anchor="middle">LLM　+　MCP　+　CLI　+　外部系统</text>
+              </g>
+              <g fill="none" stroke="var(--accent)" stroke-width="1.8">
+                <path d="M480 86 V112"/><path d="M480 176 V202"/><path d="M480 250 V276"/>
+              </g>
+              <g fill="var(--muted)" font-family="var(--sans)" font-size="11">
+                <text x="870" y="60">例如：Multica</text><text x="870" y="150">例如：Autoloop 思路</text>
+              </g>
+            </svg>
+            <figcaption>图 3 · 分层是能力边界示意：项目协作、事件自动化和 Agent 执行可以组合，但职责不同。</figcaption>
+          </figure>
           <aside class="zine-panel zine-panel-wide">
             <p class="zine-panel-label">可以借鉴到企业级 Agent 平台的能力</p>
             <div class="zine-capability-grid">
