@@ -1,4 +1,4 @@
-# xcai 的 AI 空间站 · XCAI AI SPACE STATION
+# XCAI 的 AI 空间站 · XCAI AI SPACE STATION
 
 一个极简、以阅读为中心的个人 AI 探索与知识记录空间。使用原生 HTML + CSS + 少量原生 JavaScript 构建，无需 Node.js、构建工具、数据库或第三方前端框架。
 
