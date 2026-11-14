@@ -1,4 +1,4 @@
-# Site contract: `xcai8698.github.io`
+# Site contract: `xcai 的 AI 空间站` (`xcai8698.github.io`)
 
 The live repository is authoritative; fetch current files before editing.
 
@@ -21,7 +21,7 @@ notes/about-this-space.html
 notes/template.html
 ```
 
-New articles belong in `notes/`. Shared appearance belongs in `assets/site.css`; theme behavior belongs in `assets/theme.js`. Article work should not normally change shared files, but may add reusable `.zine-*` rules when the user explicitly requests the editorial magazine treatment.
+The site brand is `xcai 的 AI 空间站` (English descriptor: `XCAI · AI SPACE STATION`). New articles belong in `notes/`. Shared appearance belongs in `assets/site.css`; theme behavior belongs in `assets/theme.js`. Article work should not normally change shared files, but may add reusable `.zine-*` rules when the user explicitly requests the editorial magazine treatment.
 
 ## Article structure
 
