@@ -16,6 +16,8 @@ Maintain the user's personal knowledge and reflection site as a small, stable co
 - Homepage: `index.html`
 - Shared styles: `assets/site.css`
 - Theme behavior: `assets/theme.js`
+- Analytics configuration: `assets/analytics-config.js`
+- Analytics loader and optional page/site counters: `assets/analytics.js` (GoatCounter)
 - Article template: `notes/template.html`
 - Articles: `notes/*.html`
 - The homepage and every article share a light/dark theme toggle. First visit follows the operating-system preference; a manual choice is saved in `localStorage` and reused across pages.
@@ -145,3 +147,10 @@ Avoid parallel writes to the same file. If a file changed since it was fetched, 
 ## Response
 
 Report the article title and path, whether the homepage index changed, checks performed and limitations, whether changes are draft-only or published, and commit/deployment links when available. Keep the report concise; do not repeat the whole article unless asked.
+
+
+## Site analytics
+
+- Every new public HTML page must include the two shared analytics scripts after the theme script: `assets/analytics-config.js` and `assets/analytics.js` (use `../assets/` paths under `notes/`).
+- Never embed GoatCounter API keys or private credentials in public files. Only the public `/count` endpoint belongs in the config.
+- Preserve the analytics labels and shared loader; do not add duplicate per-page tracking snippets.
