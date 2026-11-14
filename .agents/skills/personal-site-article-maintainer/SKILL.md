@@ -3,11 +3,11 @@ name: personal-site-article-maintainer
 description: Create, revise, quality-check, and publish articles for the personal site at https://xcai8698.github.io/. Use when the user asks to turn notes or AI conversations into a site article, edit an existing article, add an article to the homepage index, or publish changes to this HTML/CSS site. Preserve the site's editorial style and existing content; do not redesign the site unless explicitly asked.
 ---
 
-# Personal Site Article Maintainer
+# XCAI AI Space Station Article Maintainer
 
 Maintain the user's personal knowledge and reflection site as a small, stable collection of hand-authored HTML pages. Optimize for editorial quality, factual care, readability, and design consistency—not volume or novelty.
 
-## Site identity
+## Site identity\n\n- Public-facing name: `xcai 的 AI 空间站`\n- English descriptor: `XCAI · AI SPACE STATION`
 
 - Repository: `xcai8698/xcai8698.github.io`
 - Default branch: `master`
