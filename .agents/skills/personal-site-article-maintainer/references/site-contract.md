@@ -92,3 +92,12 @@ Keep entries newest first. The displayed title, date, and summary must agree wit
 - New article: normally one new `notes/*.html` plus one `index.html` update.
 - Existing article edit: normally one article file and, only if needed, its homepage item.
 - Do not modify styles, global navigation, domain settings, or deployment configuration during routine article maintenance.
+
+
+## Analytics contract
+
+- Provider: GoatCounter hosted analytics; privacy-oriented and suitable for static GitHub Pages.
+- Configure only the public count endpoint in `assets/analytics-config.js`; never put an API key/token in client-side files.
+- Every public HTML page and the article template loads `assets/analytics-config.js` followed by `assets/analytics.js`.
+- The loader records pageviews and optionally renders per-page counts on article pages and the site total on the homepage. These labels remain hidden when analytics is not configured or counts are unavailable.
+- In GoatCounter site settings, explicitly enable visitor counters before expecting the on-page numbers to display. The dashboard remains the source of detailed reporting.
