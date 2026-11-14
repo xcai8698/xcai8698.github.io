@@ -7,7 +7,7 @@ description: Create, revise, quality-check, and publish articles for the persona
 
 Maintain the user's personal knowledge and reflection site as a small, stable collection of hand-authored HTML pages. Optimize for editorial quality, factual care, readability, and design consistency—not volume or novelty.
 
-## Site identity\n\n- Public-facing name: `xcai 的 AI 空间站`\n- English descriptor: `XCAI · AI SPACE STATION`
+## Site identity\n\n- Public-facing name: `XCAI 的 AI 空间站`\n- English descriptor: `XCAI · AI SPACE STATION`
 
 - Repository: `xcai8698/xcai8698.github.io`
 - Default branch: `master`
