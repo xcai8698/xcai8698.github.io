@@ -247,3 +247,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   .zine-figure { overflow-x:auto; }
   .zine-figure figcaption { position:sticky; left:0; }
 }
+
+
+/* Lightweight, optional GoatCounter page-view labels. */
+.analytics-pageviews,
+.analytics-total { color: var(--muted); font-size: 11px; white-space: nowrap; }
+.analytics-pageviews::before,
+.analytics-total::before { content: "·"; margin-right: 7px; color: var(--faint); }
+.analytics-total { margin-left: auto; }
+@media (max-width: 560px) { .analytics-total { margin-left: 0; } }
